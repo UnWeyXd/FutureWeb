@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FuturewebSolutions - Portafolio de Desarrollo Web</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'dark': '#111111',
+            'mid-gray': '#555555',
+            'light-gray': '#999999',
+            'lightest': '#f5f5f5',
+          },
+          fontFamily: {
+            'sans': ['Montserrat', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style id="app-style">
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+      background-color: #fafafa;
+    }
+    .header-shadow {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #333 0%, #111 100%);
+    }
+    .service-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .service-icon {
+      transition: all 0.3s ease;
+    }
+    .service-card:hover .service-icon {
+      transform: scale(1.2);
+    }
+    .project-item {
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .project-item img {
+      transition: transform 0.5s ease;
+    }
+    .project-item:hover img {
+      transform: scale(1.05);
+    }
+    .project-overlay {
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .project-item:hover .project-overlay {
+      opacity: 1;
+    }
+    .social-icon {
+      transition: all 0.3s ease;
+    }
+    .social-icon:hover {
+      transform: translateY(-5px);
+    }
+    
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    
+    .swiper-button-next, .swiper-button-prev {
+      color: #333 !important;
+    }
+    
+    .modal {
+      transition: opacity 0.3s ease;
+    }
+    
+    /* Mobile Menu Animation */
+    .menu-enter {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    .menu-enter-active {
+      transform: translateY(0);
+      opacity: 1;
+      transition: opacity 300ms, transform 300ms;
+    }
+    .menu-exit {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .menu-exit-active {
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: opacity 300ms, transform 300ms;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    
+    /* Custom swiper pagination */
+    .swiper-pagination-bullet {
+      background: #555 !important;
+    }
+    .swiper-pagination-bullet-active {
+      background: #111 !important;
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+  <!-- Header -->
+  <header class="fixed w-full bg-white header-shadow z-50">
+    <div class="container mx-auto px-6 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="imagenes/logo.png" alt="FutureWebSolutions Logo" class="h-12">
+        </div>
+        
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex space-x-10">
+        <a href="#services" class="text-gray-800 hover:text-gray-500 font-medium transition-colors">Servicios</a>
+        <a href="#projects" class="text-gray-800 hover:text-gray-500 font-medium transition-colors">Proyectos</a>
+        <a href="#testimonials" class="text-gray-800 hover:text-gray-500 font-medium transition-colors">Testimonios</a>
+        <a href="#contact" class="text-gray-800 hover:text-gray-500 font-medium transition-colors">Contacto</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="menu-toggle" class="text-gray-800 hover:text-gray-500 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="md:hidden hidden bg-white absolute left-0 right-0 shadow-md mt-3 px-6 py-4">
+        <a href="#services" class="block py-2 text-gray-800 hover:text-gray-500">Servicios</a>
+        <a href="#projects" class="block py-2 text-gray-800 hover:text-gray-500">Proyectos</a>
+        <a href="#testimonials" class="block py-2 text-gray-800 hover:text-gray-500">Testimonios</a>
+        <a href="#contact" class="block py-2 text-gray-800 hover:text-gray-500">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative hero-gradient text-white min-h-screen flex items-center">
+    <div id="particles-js"></div>
+    <div class="container mx-auto px-6 py-32 relative z-10">
+      <div class="max-w-3xl" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Construyendo las Soluciones Web y de Software del Mañana, Hoy</h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-300">Sitios para comercios, hoteles, sistemas de inventario y software a medida</p>
+        <a href="#contact" class="bg-white text-gray-900 hover:bg-gray-200 px-8 py-4 rounded-md font-semibold transition-colors inline-block">Solicita una Cotización Gratis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">Nuestros Servicios</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">Nos especializamos en crear soluciones digitales personalizadas que ayudan a las empresas a prosperar en la era digital.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- E-commerce Websites -->
+        <div class="service-card bg-white rounded-lg p-8 shadow-lg border border-gray-200" data-aos="fade-up" data-aos-delay="150">
+          <div class="service-icon text-5xl text-gray-800 mb-4">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Sitios E-commerce</h3>
+          <p class="text-gray-600">Tiendas en línea personalizadas para mostrar tus productos y maximizar ventas con pagos seguros.</p>
+        </div>
+        
+        <!-- Hotel Booking Pages -->
+        <div class="service-card bg-white rounded-lg p-8 shadow-lg border border-gray-200" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-icon text-5xl text-gray-800 mb-4">
+            <i class="fas fa-hotel"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Páginas de Reservas de Hotel</h3>
+          <p class="text-gray-600">Sistemas de reservas interactivos que simplifican el proceso y ayudan a gestionar la disponibilidad de habitaciones.</p>
+        </div>
+        
+        <!-- Inventory Management -->
+        <div class="service-card bg-white rounded-lg p-8 shadow-lg border border-gray-200" data-aos="fade-up" data-aos-delay="250">
+          <div class="service-icon text-5xl text-gray-800 mb-4">
+            <i class="fas fa-boxes"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Sistemas de Inventario</h3>
+          <p class="text-gray-600">Soluciones integrales para rastrear productos, gestionar stock y optimizar la cadena de suministro.</p>
+        </div>
+        
+        <!-- Custom Software -->
+        <div class="service-card bg-white rounded-lg p-8 shadow-lg border border-gray-200" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-icon text-5xl text-gray-800 mb-4">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Software a Medida</h3>
+          <p class="text-gray-600">Aplicaciones hechas a medida para tus necesidades, automatizando procesos y aumentando la productividad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-24 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">Proyectos Recientes</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">Mira algunos de nuestros proyectos favoritos entregados a nuestros clientes.</p>
+      </div>
+      
+      <div class="swiper-container" data-aos="fade-up" data-aos-delay="150">
+        <div class="swiper-wrapper">
+          <!-- Project 1 -->
+          <div class="swiper-slide p-2">
+            <div class="project-item relative rounded-lg overflow-hidden shadow-lg">
+              <img src="https://cdn.pixabay.com/photo/2018/05/04/20/01/website-3374825_1280.jpg" alt="E-commerce Project" class="w-full h-64 object-cover">
+              <div class="project-overlay absolute inset-0 flex items-center justify-center">
+                <div class="text-center p-4">
+                  <h3 class="text-white text-xl font-bold mb-2">Tienda de Moda de Lujo</h3>
+                  <p class="text-gray-300 mb-4">Sitio e-commerce con filtros avanzados y pago seguro</p>
+                  <button class="view-project bg-white text-gray-800 px-4 py-2 rounded-md font-medium" data-id="1">Ver Detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project 2 -->
+          <div class="swiper-slide p-2">
+            <div class="project-item relative rounded-lg overflow-hidden shadow-lg">
+              <img src="https://images.unsplash.com/photo-1532313944948-f7c5433f64e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNXx8SG90ZWwlMjBCb29raW5nJTIwUHJvamVjdHxlbnwwfHx8fDE3NTYzMzc2MTh8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Hotel Booking Project" class="w-full h-64 object-cover">
+              <div class="project-overlay absolute inset-0 flex items-center justify-center">
+                <div class="text-center p-4">
+                  <h3 class="text-white text-xl font-bold mb-2">Reserva en Resort de Playa</h3>
+                  <p class="text-gray-300 mb-4">Sistema de reservas interactivo con tours virtuales de habitaciones</p>
+                  <button class="view-project bg-white text-gray-800 px-4 py-2 rounded-md font-medium" data-id="2">Ver Detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project 3 -->
+          <div class="swiper-slide p-2">
+            <div class="project-item relative rounded-lg overflow-hidden shadow-lg">
+              <img src="https://images.unsplash.com/photo-1724709162875-fe100dd0e04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxM3x8SW52ZW50b3J5JTIwU3lzdGVtfGVufDB8fHx8MTc1NjMzNzYyNnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Inventory System" class="w-full h-64 object-cover">
+              <div class="project-overlay absolute inset-0 flex items-center justify-center">
+                <div class="text-center p-4">
+                  <h3 class="text-white text-xl font-bold mb-2">Gestor Global de Cadena de Suministro</h3>
+                  <p class="text-gray-300 mb-4">Sistema de inventario con analíticas en tiempo real</p>
+                  <button class="view-project bg-white text-gray-800 px-4 py-2 rounded-md font-medium" data-id="3">Ver Detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project 4 -->
+          <div class="swiper-slide p-2">
+            <div class="project-item relative rounded-lg overflow-hidden shadow-lg">
+              <img src="https://cdn.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png" alt="Custom Software" class="w-full h-64 object-cover">
+              <div class="project-overlay absolute inset-0 flex items-center justify-center">
+                <div class="text-center p-4">
+                  <h3 class="text-white text-xl font-bold mb-2">Suite de Gestión de RRHH</h3>
+                  <p class="text-gray-300 mb-4">Sistema de gestión de empleados con reportes avanzados</p>
+                  <button class="view-project bg-white text-gray-800 px-4 py-2 rounded-md font-medium" data-id="4">Ver Detalles</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Add pagination and navigation -->
+        <div class="swiper-pagination mt-6"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Project Modal -->
+  <div id="project-modal" class="modal fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div class="absolute inset-0 bg-black opacity-75" id="modal-overlay"></div>
+    <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 relative z-10" data-aos="zoom-in">
+      <button id="close-modal" class="absolute right-4 top-4 text-gray-500 hover:text-gray-800">
+        <i class="fas fa-times text-2xl"></i>
+      </button>
+      <div id="modal-content">
+        <!-- Content will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4" data-aos="fade-up">Testimonios de Clientes</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">No te quedes solo con nuestra palabra — conoce lo que opinan nuestros clientes sobre nuestro trabajo.</p>
+      </div>
+      
+      <div class="testimonial-slider relative max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="150">
+        <div class="swiper-container testimonials">
+          <div class="swiper-wrapper">
+            <!-- Testimonial 1 -->
+            <div class="swiper-slide">
+              <div class="bg-gray-100 p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-6">
+                  <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="Client" class="w-16 h-16 rounded-full object-cover filter grayscale">
+                  <div class="ml-4">
+                    <h4 class="text-lg font-bold">Carlos Rodriguez</h4>
+                    <p class="text-gray-600">E-commerce Manager</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 italic">"FutureWebSolutions transformó nuestra presencia online. Nuestra nueva plataforma e-commerce aumentó las ventas un 35% en solo dos meses. Su atención al detalle y diseño responsivo marcaron la diferencia."</p>
+              </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="swiper-slide">
+              <div class="bg-gray-100 p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-6">
+                  <img src="https://cdn.pixabay.com/photo/2014/04/03/10/32/user-310807_1280.png" alt="Client" class="w-16 h-16 rounded-full object-cover filter grayscale">
+                  <div class="ml-4">
+                    <h4 class="text-lg font-bold">Elena Mendes</h4>
+                    <p class="text-gray-600">Hotel Manager</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 italic">"El sistema de reservas creado por FutureWebSolutions ha optimizado por completo nuestro proceso. Nuestro equipo ahorra horas cada día y los huéspedes adoran la interfaz intuitiva. ¡Trabajo excepcional!"</p>
+              </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="swiper-slide">
+              <div class="bg-gray-100 p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-6">
+                  <img src="https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_1280.png" alt="Client" class="w-16 h-16 rounded-full object-cover filter grayscale">
+                  <div class="ml-4">
+                    <h4 class="text-lg font-bold">Marco Fernandez</h4>
+                    <p class="text-gray-600">Supply Chain Director</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 italic">"El sistema de inventario desarrollado por FutureWebSolutions nos dio visibilidad en tiempo real de nuestros stocks en múltiples almacenes. Esto redujo drásticamente el sobrestock y mejoró nuestro flujo de caja."</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Testimonial navigation -->
+          <div class="swiper-pagination mt-8"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 bg-gray-900 text-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4" data-aos="fade-up">Contáctanos</h2>
+        <p class="text-lg text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">¿Listo para hablar de tu proyecto? Completa el formulario y te contactaremos en menos de 24 horas.</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto bg-white text-gray-800 rounded-lg shadow-lg overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+        <div class="p-8">
+          <form id="contact-form">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label for="name" class="block text-gray-700 font-medium mb-2">Nombre Completo</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+              </div>
+              <div>
+                <label for="email" class="block text-gray-700 font-medium mb-2">Correo Electrónico</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500" required>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <label for="company" class="block text-gray-700 font-medium mb-2">Empresa</label>
+              <input type="text" id="company" name="company" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
+            </div>
+            
+            <div class="mb-6">
+              <label for="service" class="block text-gray-700 font-medium mb-2">Servicio de Interés</label>
+              <select id="service" name="service" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
+                <option value="">Selecciona una opción</option>
+                <option value="ecommerce">Sitio E-commerce</option>
+                <option value="hotel">Sistema de Reservas de Hotel</option>
+                <option value="inventory">Gestión de Inventario</option>
+                <option value="custom">Software a Medida</option>
+                <option value="other">Otro</option>
+              </select>
+            </div>
+            
+            <div class="mb-6">
+              <label for="message" class="block text-gray-700 font-medium mb-2">Detalles del Proyecto</label>
+              <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500" required></textarea>
+            </div>
+            
+            <div>
+              <button type="submit" class="bg-gray-900 text-white py-3 px-8 rounded-md hover:bg-gray-700 transition-colors">Enviar Mensaje</button>
+            </div>
+          </form>
+          
+          <!-- Form Success Message (Hidden by Default) -->
+          <div id="form-success" class="hidden bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mt-6">
+            <p>¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-16">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-8 md:mb-0">
+          <img src="imagenes/logo.png" alt="FutureWebSolutions Logo" class="h-10 mb-4">
+  <!-- Floating Logo (Bottom Right) -->
+  <div style="position: fixed; bottom: 24px; right: 24px; z-index: 1000;">
+    <img src="imagenes/logo.png" alt="FutureWebSolutions Logo" style="height: 48px; width: auto; opacity: 0.85; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+  </div>
+          <p class="text-gray-400 max-w-sm">Creando soluciones digitales innovadoras para empresas de todo el mundo desde 2020.</p>
+        </div>
+        
+        <div class="flex flex-col items-center md:items-end">
+          <div class="flex space-x-6 mb-6">
+            <a href="javascript:void(0)" class="social-icon text-2xl text-gray-400 hover:text-white">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="javascript:void(0)" class="social-icon text-2xl text-gray-400 hover:text-white">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="javascript:void(0)" class="social-icon text-2xl text-gray-400 hover:text-white">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="javascript:void(0)" class="social-icon text-2xl text-gray-400 hover:text-white">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+          <p class="text-gray-500">© 2025 FutureWebSolutions. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script id="app-script">
+    // Initialize AOS Animation
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      offset: 100
+    });
+    
+    // Initialize Particles.js
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": 50,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle",
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "push": {
+            "particles_nb": 4
+          }
+        }
+      },
+      "retina_detect": true
+    });
+    
+    // Initialize Swiper sliders
+    const projectsSwiper = new Swiper('.swiper-container:not(.testimonials)', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        }
+      }
+    });
+    
+    const testimonialsSwiper = new Swiper('.testimonials', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+    
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+    
+    // Project modal functionality
+    const projectModal = document.getElementById('project-modal');
+    const modalContent = document.getElementById('modal-content');
+    const closeModal = document.getElementById('close-modal');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const viewProjectButtons = document.querySelectorAll('.view-project');
+    
+    // Project data (would come from an API in a real application)
+    const projects = {
+      1: {
+        title: "Luxury Fashion Store",
+        description: "A comprehensive e-commerce platform for a high-end fashion retailer, featuring advanced product filtering, wishlist functionality, and secure payment processing.",
+        technologies: "React.js, Node.js, MongoDB, Stripe API, AWS",
+        images: [
+          "https://images.unsplash.com/photo-1532313944948-f7c5433f64e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNXx8SG90ZWwlMjBCb29raW5nJTIwUHJvamVjdHxlbnwwfHx8fDE3NTYzMzc2MTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+          "https://cdn.pixabay.com/photo/2018/05/04/20/01/website-3374825_1280.jpg"
+        ],
+        challenges: "Implementing a complex inventory management system that synchronizes with physical store locations in real-time.",
+        results: "35% increase in online sales and 20% reduction in cart abandonment rate."
+      },
+      2: {
+        title: "Seaside Resort Booking",
+        description: "An interactive hotel booking system with virtual room tours, seasonal pricing algorithms, and integration with major booking platforms.",
+        technologies: "Vue.js, Laravel, MySQL, Payment Gateway Integration, Google Maps API",
+        images: [
+          "https://images.unsplash.com/photo-1532313944948-f7c5433f64e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxNXx8SG90ZWwlMjBCb29raW5nJTIwUHJvamVjdHxlbnwwfHx8fDE3NTYzMzc2MTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+          "https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569_1280.jpg"
+        ],
+        challenges: "Creating a sophisticated availability calendar that handles complex booking rules and restrictions.",
+        results: "40% increase in direct bookings, reducing commission fees paid to third-party platforms."
+      },
+      3: {
+        title: "Global Supply Chain Manager",
+        description: "An inventory tracking system for a multinational company, featuring barcode scanning, low-stock alerts, and comprehensive reporting tools.",
+        technologies: "Angular, Django, PostgreSQL, Docker, AWS",
+        images: [
+          "https://images.unsplash.com/photo-1724709162875-fe100dd0e04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NjkwMjR8MHwxfHNlYXJjaHwxM3x8SW52ZW50b3J5JTIwU3lzdGVtfGVufDB8fHx8MTc1NjMzNzYyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+          "https://cdn.pixabay.com/photo/2015/01/08/18/24/programming-593312_1280.jpg"
+        ],
+        challenges: "Synchronizing data across multiple warehouses in different time zones with varying internet connectivity.",
+        results: "Reduced inventory holding costs by 25% and eliminated stockout incidents by 90%."
+      },
+      4: {
+        title: "HR Management Suite",
+        description: "A comprehensive HR platform that handles employee onboarding, time tracking, performance reviews, and payroll integration.",
+        technologies: "React, Node.js, GraphQL, MongoDB, Azure",
+        images: [
+          "https://cdn.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png",
+          "https://cdn.pixabay.com/photo/2017/07/31/11/21/people-2557396_1280.jpg"
+        ],
+        challenges: "Ensuring GDPR compliance while maintaining accessibility across different office locations.",
+        results: "Reduced HR administrative time by 30% and improved employee satisfaction with onboarding process."
+      }
+    };
+    
+    // Open modal with project details
+    viewProjectButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const projectId = e.target.getAttribute('data-id');
+        const project = projects[projectId];
+        
+        // Build the modal content HTML
+        const content = `
+          <h2 class="text-3xl font-bold mb-4">${project.title}</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div>
+              <img src="${project.images[0]}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg mb-4">
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">Project Overview</h3>
+              <p class="text-gray-700 mb-4">${project.description}</p>
+              <h4 class="font-bold mb-1">Technologies Used:</h4>
+              <p class="text-gray-700 mb-4">${project.technologies}</p>
+              <h4 class="font-bold mb-1">Key Challenges:</h4>
+              <p class="text-gray-700 mb-4">${project.challenges}</p>
+              <h4 class="font-bold mb-1">Results:</h4>
+              <p class="text-gray-700">${project.results}</p>
+            </div>
+          </div>
+        `;
+        
+        modalContent.innerHTML = content;
+        projectModal.classList.remove('hidden');
+      });
+    });
+    
+    // Close modal
+    closeModal.addEventListener('click', () => {
+      projectModal.classList.add('hidden');
+    });
+    
+    modalOverlay.addEventListener('click', () => {
+      projectModal.classList.add('hidden');
+    });
+    
+    // Escape key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !projectModal.classList.contains('hidden')) {
+        projectModal.classList.add('hidden');
+      }
+    });
+    
+    // Handle form submission
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // In a real application, this would be an API call
+      setTimeout(() => {
+        formSuccess.classList.remove('hidden');
+        contactForm.reset();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          formSuccess.classList.add('hidden');
+        }, 5000);
+      }, 1000);
+    });
+    
+    // Form validation
+    const validateForm = () => {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Simple validation
+      if (!name || !email || !message) {
+        return false;
+      }
+      
+      // Email validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
+    };
+  </script>
+</body>
+</html>
