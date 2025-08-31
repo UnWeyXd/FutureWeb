@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <style>
+    /* Ocultar secciones de proyectos y testimonios */
+    #projects, #testimonials {
+      display: none !important;
+    }
+    /* Ocultar enlaces de la barra de navegación a Proyectos y Testimonios */
+    nav a[href="#projects"], nav a[href="#testimonials"],
+    #mobile-menu a[href="#projects"], #mobile-menu a[href="#testimonials"] {
+      display: none !important;
+    }
+  </style>
+  <style>
+    /* Ocultar secciones de proyectos y testimonios */
+    #projects, #testimonials {
+      display: none !important;
+    }
+  </style>
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
